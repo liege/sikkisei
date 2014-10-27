@@ -204,7 +204,8 @@
     // 分享给朋友设置
     var link = window.location.href;
     var opt_msg = {
-        "img_url" : meta.dataset.msgImg || "http://" + window.location.host + document.getElementsByTagName('img')[0].getAttribute('src'),
+        // "img_url" : meta.dataset.msgImg || "http://" + window.location.host + document.getElementsByTagName('img')[0].getAttribute('src'),
+        "img_url":'http://112.64.126.126:49521/LRLZServer/h5/xuejijing/images/bgz.jpg',
         "link" : link,
         "desc" : meta.dataset.msgContent || document.title + '，敬请访问！',
         "title" : meta.dataset.msgTitle || document.title
@@ -229,7 +230,8 @@
 
     // 朋友圈分享设置
     var opt_line = {
-        "img_url" : meta.dataset.lineImg || "http://" + window.location.host + document.getElementsByTagName('img')[0].getAttribute('src'),
+        // "img_url" : meta.dataset.lineImg || "http://" + window.location.host + document.getElementsByTagName('img')[0].getAttribute('src'),
+        "img_url":'http://112.64.126.126:49521/LRLZServer/h5/xuejijing/images/bgz.jpg',
         "link" : link,
         "desc" : meta.dataset.lineTitle || document.title + '，敬请访问！',
         "title" : meta.dataset.lineTitle || document.title + '，敬请访问！'

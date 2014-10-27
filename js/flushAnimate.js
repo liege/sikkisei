@@ -33,6 +33,8 @@ var flushAnimate = window.flushAnimate = function(window){
 			t_i = e.y || e.pageY;
 		}
 	 	t_f = t_i;
+	 	fade(0,$('.p7 a'),0,300);
+	 	fade(0,$('.p8 a'),0,300);
 	 };
 
 	var animate_m = function(){
@@ -40,13 +42,16 @@ var flushAnimate = window.flushAnimate = function(window){
 		var scale=1 - Math.abs((topV-v_h)*0.2/$(window).height());//缩放时的变量
 		var ta=(topV-v_h)/5;//缩放时固定头部的变量
 		if (p_flag) {//当向下移动
-			if(page_n==1&&page_v==6){return;}
+			console.log('pageN:%d',page_n);
+			console.log('pageV:%d',page_v);
+			if(page_n==1&&page_v==10){return;}
 			var topVab=Math.abs(topV);//设置绝对值
 			ta=Math.abs(topVab-v_h)/5;//缩放时固定头部的变量[ta值 0-96 ]
 			scale=1-Math.abs((topVab-v_h)*0.2/$(window).height());//缩放时的变量[1-0.8]
 
 		}
-		if(page_n==6&&page_v==6){return;}
+						
+			if(page_n==10&&page_v==10){return;}
 		$(".section_li").eq(page_n-1).animate({scale: scale,translate:'0,'+ta+'px'},0,'');
 			//展示 的页面
 		$(".section_li").eq(page_v-1).css({'top':topV+t_m-t_i});
@@ -56,20 +61,19 @@ var flushAnimate = window.flushAnimate = function(window){
 	var animate_i = function(){//初始化页面
 		i_flag = true;
 		p_flag = t_m - t_i > 0?true:false;
+
 		if(p_flag){//向下移动
-			if(page_n==1&&page_v==6){return;}
+			if(page_n==1&&page_v==10){return;}
 			if(page_n >1){
 				page_v = page_n - 1 ;
 			}else{
 				page_v = page_m ;
 			}
 			$(".section_li").eq(page_v-1).addClass("active").css("top",-v_h);
-		}else{//向上移动
-						
-			console.log(page_v);
-			console.log(page_n);
-			if(page_n==6&&page_v==6){return;}
-			
+		}else{//向上移动		
+			console.log('pageN:%d',page_n);
+			console.log('pageV:%d',page_v);			
+			if(page_n==10&&page_v==10){return;}
 			if(page_n != page_m){
 				page_v = page_n + 1 ;
 			}else{
@@ -99,9 +103,10 @@ var flushAnimate = window.flushAnimate = function(window){
 
 
 	var touch_e = function(e){
+	 	fade(0,$('.p7 a'),1,300);
+	 	fade(0,$('.p8 a'),1,300);
 		i_flag = false;
-		if(page_n==1&&page_v==6){return;}
-		// if(page_n==5&&page_v==5){return;}
+		if(page_n==1&&page_v==10){return;}
 		if( Math.abs(t_m - t_f)>100 && Math.abs(t_m)>10){
 			if(p_flag)//上一页动画完成
 				var taX="96px";
@@ -171,112 +176,131 @@ var h = $('.map_slider').height();
 // });
 
 function pageAnimate(){
-	var $li = $('ul.title').find('li');
-	zoom(0,$('.p1bg'),1.1);
-	$li.each(function(i,v){
-		$(v).css({
-			'backgroundPosition':-i*40+'px 0',
-			// 'transform':'translate3d('+-i*70+'px,0,100px)',
-			'opacity':'0',
-			'left':'340px'
-		});
-		moveX(2000+i*50,$(v),'300px');
-	});
-	$('.maskTop').animate({
-		translate:'-140px,-440px',
-		rotate:'45deg',
-		scale:'.5,.5'
-	},800,'ease-out')
-	$('.maskBot').animate({
-		translate:'-100px,0',
-		rotate:'45deg',
-		scale:'.5,.5'
-	},800,'ease-out')	
-	slider(1000,$('.p1 .txt img'),function(){
-		$('.p1 .txt img').eq(1).animate({
-			translate:'4px,-3px'
-		},300);
-		$('.p1 .title').animate({
-			scaleZ:'1',
-			opacity:1,
-			rotateZ:'0deg'
-		},500,'ease-in-out',function(){
-			slider(10,$('.p1 .product img'));
-		});
-	});
-	fade(1200,$('.shadow'),1);
-	
+			$('.p1bg').animate({
+				translate:'-200px,0'
+			},8000,'linear');
+			slider(500,$('.p1 .title1 img'));
+			slider(1000,$('.p1 .title2 img'));
+			slider(1200,$('.p1 .title3 img'));	
 }
 var timer =null,p3page=1;
 function auto(){
-	$('.p3 .pic').find('img').css('opacity',1);
+	$('.p3 .pic').css('opacity',0.7);
 	$('.p3 .txt img').animate({
 		translate:'154px,0',
 		opacity:0
 	});
 
 	slider(0,$('.p3 .txt').eq(p3page).find('img'));
-	$('.p3 .pic').eq(p3page).find('img').eq(1).css('opacity',0);
+	$('.p3 .pic').eq(p3page).css('opacity',1);
 	if(p3page<2){
 		p3page++
 	}else{
 		p3page=0;
 	}	
 }
+function p2event(){
+	$('.p2').on('tap','.mid',function(){
+		$(this).removeClass('mid').addClass('big');
+		console.log($(this).index());
+		if($(this).index()==1){
+			$(this).prev().removeClass('big').addClass('small');
+			$(this).next().removeClass('small').addClass('mid');
+		}
+		if($(this).index()==2){
+			$(this).siblings().eq(1).removeClass('big').addClass('small');
+			$(this).siblings().eq(0).removeClass('small').addClass('mid');
+		}
+		if($(this).index()==0){
+			$(this).siblings().eq(0).removeClass('small').addClass('mid');
+			$(this).siblings().eq(1).removeClass('big').addClass('small');
+		}
+		$('.p2 .txt').animate({'opacity':0}).eq($(this).index()).animate({opacity:1});
+		$('.p2 .bg').animate({'opacity':0}).eq($(this).index()).animate({opacity:1});
+	});
+	$('.p2 .mid').trigger('tap');
+}
 function pageIn(page){
 	var $pageList = $(".section_li");
 	var $li = $pageList.eq(page);
+	if(page==10){
+		$pageList.eq(page-1).find('.arrow').hide();
+	}else{
+		$pageList.find('.arrow').show();
+	}
 	switch(page){
 		case 2:
 		(function(){			
-			$('.p2bg').animate({
-				translate:'-200px,0'
-			},8000,'linear');
-			slider(500,$('.p2 .title img'));
-			slider(1000,$('.p2 .hint1 img'));
-			slider(1200,$('.p2 .hint2 img'));
+			p2event();
 		})()
 			break;
 		case 3:
 		(function(){
-			fade(0,$('.p3 .mask'),1,1000);
 			slider(500,$('.p3 .title img'));
 			slider(1000,$('.p3 .hint1 img'));
 			rotate(1500,$('.p3 .pic'),function(){
-				//auto();
-				slider(0,$('.p3 .txt').eq(0).find('img'));
-				$('.p3 .pic').eq(0).find('img').eq(1).css('opacity',0);
+				p3page = 1;
+				auto();
+				// slider(0,$('.p3 .txt').eq(0).find('img'));
+				// $('.p3 .pic').eq(0).css('opacity',1);
 				clearInterval(timer);
-				timer = setInterval(auto,5000);
+				timer = setInterval(auto,2500);
 			});
 			// 
 		})()
 			break;	
 		case 4:
 		(function(){
-			fade(0,$('.p4 .product'),1,1000);
-			slider(500,$('.p4 .title1 img'));
-			slider(1200,$('.p4 .title2 img'));
-			fade(3000,$('.p4 .buy'),1);
-			jumpOut(2400,$('.p4 .honor'))
+			zoom(0,$('.p4 .map img'),1.2,2000);
+			slider(0,$('.p4 .product'),2000);
+			jumpOut(1800,$('.p4 .honor'))
+			slider(2500,$('.p4 .txt img'));
+			slider(2500,$('.p4 .logo img'));
 		})()
 			break;
 		case 5:
 		(function(){
-			$('.p5 .line li').each(function(i,v){
-				v.style.backgroundImage = 'url(images/line'+(i+1)+'.png)';
-			})
-			fade(0,$('.p5 .product'),1,1000);
-			downRotate(1000,$('.p5 .title'));
-			fade(4000,$('.p5 .buy'),1);
-			$('.p5 .hint').each(function(i,v){
-				elastic(2000+i*300,$(v));
-			})
-			setTimeout(function(){
-				$('.p5 .line').addClass('blink');
-			},3500)
+			$('.p5 .bg').animate({
+				scale:'1.3,1.3'
+			},2000,'ease-out')
+			fade(1000,$('.p5 .mask'),1,1000);
+			slider(2000,$('.p5 .title img'));
 		})()
-			break;			
+			break;
+		case 6:
+		(function(){
+			fade(0,$('.p6 .txt'),1,1000);
+			fade(1000,$('.p6 .t2'),1,1000);
+			fade(2000,$('.p6 .t3'),1,1000);
+			slider(1000,$('.p6 .product img'));
+		})()
+			break;					
+		case 7:
+		(function(){
+			fade(500,$('.p7 .title img'),1);
+		})()
+			break;	
+		case 8:
+		(function(){
+			fade(0,$('.p8 .product'),1);
+			fade(500,$('.p8 a'),1);
+		})()
+			break;	
+		case 9:
+		(function(){
+			fade(0,$('.p9 .product'),1);
+			fade(500,$('.p9 a'),1);
+		})()
+			break;	
+		case 10:
+		(function(){
+			$('.p10 .bg').animate({
+				translate:'0px,30px'
+			},8000,'linear');
+			slider(500,$('.p10 .title1 img'));
+			slider(1000,$('.p10 .title2 img'));
+		})()
+			break;													  		
 	}
 }
 function moveX(timeout,elem,dis){
@@ -291,13 +315,14 @@ function moveX(timeout,elem,dis){
         }, 500, 'ease-out')
 	},timeout)
 }
-function zoom(timeout,elem,sc){
+function zoom(timeout,elem,sc,duration){
 	sc = sc || 1;
+	duration = duration || 500;
 	setTimeout(function(){
 		elem.animate({
 			opacity:1,
 			scale3d:sc+','+sc+',1'
-		},500,'ease-out')
+		},duration,'ease-out')
 	},timeout);
 }
 function elastic(timeout,elem){
@@ -308,12 +333,13 @@ function elastic(timeout,elem){
 		},500,'ease-out');
 	},timeout);
 }
-function slider(timeout,elem,cb){
+function slider(timeout,elem,duration,cb){
+	duration = duration || 500;
 	setTimeout(function(){
 		elem.animate({
 			translate:'0,0',
 			opacity:1
-		},500,'ease-in-out',cb)
+		},duration,'ease-in-out',cb)
 	},timeout);
 }
 function fade(timeout,elem,opacity,duration){
@@ -327,7 +353,7 @@ function fade(timeout,elem,opacity,duration){
 function rotate(timeout,elem,cb){
 	setTimeout(function(){
 		elem.animate({
-			opacity:1
+			opacity:.7
 		},500,'ease-out',function(){		
 			$('.dg').animate({
 			translate:'45px,0',

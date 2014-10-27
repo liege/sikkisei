@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ts</title>
+	<style>
+	html{height: 100%; background: #ccc;}
+	#player{width: 100px;height: 100px; background: #000; background-size: 50px 50px;}
+	#btn{position: absolute; top: 400px; width: 10%; height: 10%;}
+	</style>
+	<script src='js/zepto.js'></script>
+</head>
+<body>
+	<audio id="player" class="player" controls preload loop="loop" src="mp3.mp3" sta='play'>123</audio>
+	<input type="button" id="btn" vaule='enter'>
+	<script>
+
+		var m = document.getElementById('player');
+		// document.body.onclick = function(){
+		// 	alert(1);
+		// 	m.play();
+		// }
+		$(function(){
+			$('input').on('tap',function(){
+				console.log('ok');
+			})
+		})
+	</script>
+</body>
+</html>
